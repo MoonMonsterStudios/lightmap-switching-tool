@@ -20,7 +20,6 @@ public class LevelLightmapData : MonoBehaviour
 	{
 		public Renderer renderer;
         public int transformHash;
-        public int meshHash;
         public string name;
         public int lightmapIndex;
 		public Vector4 lightmapScaleOffset;
@@ -411,7 +410,6 @@ public class LevelLightmapData : MonoBehaviour
                 transformHash = GetStableHash(go.transform),
                 lightmapScaleOffset = r ? r.lightmapScaleOffset : t.lightmapScaleOffset,
                 lightmapIndex = r ? r.lightmapIndex : t.lightmapIndex,
-                meshHash = r ? (m ? m.sharedMesh.name.GetHashCode() : 0) : t.terrainData.GetHashCode(),
                 renderer = r ? r : null,
             };
             newRendererInfos.Add(rendererInfo);
