@@ -236,7 +236,7 @@ public class LevelLightmapData : MonoBehaviour
             //Fill with lighting scenario to load renderer infos
             foreach (var info in infos)
             {
-                var uniquehash = info.transformHash + info.name.GetHashCode() + info.meshHash;
+                var uniquehash = info.transformHash + info.name.GetHashCode();
                 if (hashRendererPairs.ContainsKey(uniquehash))
                     Debug.LogWarning(messagePrefix + "This renderer info could not be matched. Please check that you don't have 2 gameobjects with the same name, transform, and mesh.", info.renderer);
                 else
@@ -250,11 +250,7 @@ public class LevelLightmapData : MonoBehaviour
             foreach (var render in renderers)
             {
                 var infoToApply = new RendererInfo();
-                var meshfilter = render.gameObject.GetComponent<MeshFilter>();
-                int meshHash = 0;
-                if (meshfilter != null)
-                    meshHash = meshfilter.sharedMesh.GetHashCode();
-                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform) + render.gameObject.name.GetHashCode() + meshHash, out infoToApply))
+                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform) + render.gameObject.name.GetHashCode(), out infoToApply))
                 {
                     render.lightmapIndex = infoToApply.lightmapIndex;
                     if (applyLightmapScaleAndOffset)
@@ -415,7 +411,7 @@ public class LevelLightmapData : MonoBehaviour
                 transformHash = GetStableHash(go.transform),
                 lightmapScaleOffset = r ? r.lightmapScaleOffset : t.lightmapScaleOffset,
                 lightmapIndex = r ? r.lightmapIndex : t.lightmapIndex,
-                meshHash = r ? (m ? m.sharedMesh.GetHashCode() : 0) : t.terrainData.GetHashCode(),
+                meshHash = r ? (m ? m.sharedMesh.name.GetHashCode() : 0) : t.terrainData.GetHashCode(),
                 renderer = r ? r : null,
             };
             newRendererInfos.Add(rendererInfo);
